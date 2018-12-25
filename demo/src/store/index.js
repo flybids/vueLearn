@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import mutation from './mutation'
-import action from './action'
+// import action from './action.js'
+// import mutation from './mutation.js'
 
 Vue.use(Vuex)
-
-const state = {
+const ADD_ITEM = 'ADD_ITEM'
+const REMEMBER_ANS ='REMEMBER_ANS'
+const REMEMBER_TIME = 'REMEMBER_TIME'
+const INIT_DATA = 'INIT_DATA'
+ const state = {
   level: '第一周', //活动周数
   itemNum: 1, //第几题
   allTime: 0, //总用时
@@ -305,9 +308,44 @@ const state = {
   ]
 
 }
+const mutations = {
+  //下一题
+  [ADD_ITEM](state,data){
+    state.itemNum+=data
+  },
+  //记住答案
+  [REMEMBER_ANS](state,data){
+      state.answer.push(data)
+  },
+  //做题时间
+  [REMEMBER_TIME](state){
+      state.timer = setInterval(() => {
+          state.allTime++
+      }, 1000);
+  },
 
+  //初始化数据
+  [INIT_DATA](state){
+      state.itemNum =1
+      state.answer=[]
+      state.allTime=0
+  },
+}
+const actions =  {
+  //下一题 datat是传入的参数
+  addNum({commit,state},data){
+    //commit提交到mutation
+    commit('REMEMBER_ANS',data) 
+    if(state.itemNum<state.answer.length)
+     commit('ADD_ITEM',1);
+  },
+  //初始化
+  initData({ commit }){
+    commit('INIT_DATA');
+  }
+}
 export default new Vuex.Store({
     state,
-    mutation,
-    action
+    mutations,
+    actions
 })

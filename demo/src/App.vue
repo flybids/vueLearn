@@ -1,13 +1,14 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
+  <div>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  created(){
+    console.log("App.vue")
+  }
 }
 </script>
 
